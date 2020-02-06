@@ -63,8 +63,8 @@ dict['S3-4'] = [1 * 60 + 50, 15]
 os.system('adb devices')
 
 #input part, modify it before use.
-lizhi = 1
-level = 'CE-5'
+lizhi = 19
+level = '4-7'
 
 #caculation
 time_cost = dict[level][0]
@@ -84,7 +84,7 @@ for i in range(turn):
 	while True:
 		ssim = imgcontrast()
 		print 'SSIM: ' + str(ssim)
-		if ssim > 0.93:
+		if ssim > 0.75:
 			break
 		time.sleep(5)
 	os.system('adb shell input tap 1752 1011')
@@ -102,7 +102,7 @@ for i in range(turn):
 	while True:
 		ssim = imgcontrast()
 		print 'SSIM: ' + str(ssim)
-		if ssim > 0.93:
+		if ssim > 0.75:
 			break
 		time.sleep(5)
 	os.system('adb shell input tap 2169 997')
