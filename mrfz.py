@@ -5,6 +5,7 @@
 #If you need to add other levels, please add it to dict according to the comment.
 #IMPORTANT, EVERYTIME you need to edit input part.
 #2020/2/5 Add photo contrast to avoid bug caused by network jam
+#2020/2/6 Remove screenshot saved on sdcard.
 #Thanks for Boar_SJTU for his prototype.
 
 import os, time
@@ -17,6 +18,7 @@ def imgcontrast():
 	img1 = imread('org.png')
 	os.popen('adb shell screencap -p /sdcard/c.png')
 	os.popen('adb pull /sdcard/c.png')
+	os.popen('adb shell rm /sdcard/c.png')
 	img2 = imread('c.png')
 	img2 = np.resize(img2, (img1.shape[0], img1.shape[1], img1.shape[2]))
 	ssim = compare_ssim(img1, img2, multichannel=True)
@@ -31,8 +33,8 @@ dict = {'4-4': [3 * 60 + 40, 18], '1-7': [1 * 60 + 25, 6], 'CE-5': [2 * 60 + 15,
 os.system('adb devices')
 
 #input part, modify it before use.
-lizhi = 13
-level = '1-7'
+lizhi = 75
+level = 'CE-5'
 
 #caculation
 time_cost = dict[level][0]
@@ -43,6 +45,7 @@ print 'level: ' + level + ', ' + str(turn) + ' turn(s) in all'
 #Pull an initial screenshot
 os.popen('adb shell screencap -p /sdcard/org.png')
 os.popen('adb pull /sdcard/org.png')
+os.popen('adb shell rm /sdcard/org.png')
 
 #loop part 
 '''
