@@ -49,8 +49,10 @@ def imgcontrast():
 #dict[level: [time(s), cost]]
 dict = {}
 dict['1-7'] = [1 * 60 + 25, 6]
-dict['4-4'] = [3 * 60 + 40, 18]
+dict['4-4'] = [2 * 60 + 35, 18]
 dict['4-7'] = [2 * 60 + 15, 18]
+dict['4-8'] = [2 * 60 + 10, 21]
+dict['4-9'] = [2 * 60 + 40, 21]
 dict['CE-5'] = [2 * 60 + 15, 30]
 dict['PR-C-1'] = [1 * 60 + 37, 18]
 dict['PR-D-1'] = [2 * 60, 18]
@@ -62,9 +64,18 @@ dict['S3-4'] = [1 * 60 + 50, 15]
 #os.system('adb connect 127.0.0.1:5555')
 os.system('adb devices')
 
+'''
 #input part, modify it before use.
-lizhi = 19
+lizhi = 113
 level = '4-7'
+'''
+#use input instead
+lizhi = input('Enter your Lizhi:')
+while True:
+	level = raw_input('Enter Level:')
+	if dict.has_key(level):
+		break
+	print 'Level not included in dict. You may halt the script then edit it or choose another level.'
 
 #caculation
 time_cost = dict[level][0]
@@ -87,6 +98,7 @@ for i in range(turn):
 		if ssim > 0.75:
 			break
 		time.sleep(5)
+		os.system('adb shell input tap 1683 755')
 	os.system('adb shell input tap 1752 1011')
 	time.sleep(5 + random.randint(0,3))
 	os.system('adb shell input tap 1683 755')
@@ -105,6 +117,7 @@ for i in range(turn):
 		if ssim > 0.75:
 			break
 		time.sleep(5)
+		os.system('adb shell input tap 1683 755')
 	os.system('adb shell input tap 2169 997')
 	time.sleep(5 + random.randint(0,3))
 	os.system('adb shell input tap 1872 741')

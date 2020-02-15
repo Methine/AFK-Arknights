@@ -10,10 +10,6 @@
 import os, time
 import random
 
-#input part, modify it before use.
-lizhi = 19
-level = '1-7'
-
 #dict[level: [time(s), cost]]
 dict = {}
 dict['1-7'] = [1 * 60 + 25, 6]
@@ -31,6 +27,14 @@ dict['S3-4'] = [1 * 60 + 50, 15]
 #If adb says no devices, modify and add the code below(Bluestacks)
 #os.system('adb connect 127.0.0.1:5555')
 os.system('adb devices')
+
+#use input instead
+lizhi = input('Enter your Lizhi:')
+while True:
+	level = raw_input('Enter Level:')
+	if dict.has_key(level):
+		break
+	print 'Level not included in dict. You may halt the script then edit it or choose another level.'
 
 #caculation
 time_cost = dict[level][0]
