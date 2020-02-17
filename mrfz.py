@@ -49,10 +49,12 @@ def imgcontrast():
 #dict[level: [time(s), cost]]
 dict = {}
 dict['1-7'] = [1 * 60 + 25, 6]
+dict['3-4'] = [2* 60 + 25, 15]
 dict['4-4'] = [2 * 60 + 35, 18]
 dict['4-7'] = [2 * 60 + 15, 18]
 dict['4-8'] = [2 * 60 + 10, 21]
 dict['4-9'] = [2 * 60 + 40, 21]
+dict['AP-5'] = [2 * 60 + 25, 30]
 dict['CE-5'] = [2 * 60 + 15, 30]
 dict['PR-C-1'] = [1 * 60 + 37, 18]
 dict['PR-D-1'] = [2 * 60, 18]
@@ -64,11 +66,9 @@ dict['S3-4'] = [1 * 60 + 50, 15]
 #os.system('adb connect 127.0.0.1:5555')
 os.system('adb devices')
 
-'''
-#input part, modify it before use.
-lizhi = 113
-level = '4-7'
-'''
+#WiFi ADB, you need to shell "adb tcpip 5555"(everytime you reboot your phone, you need to shell it again)
+#os.system('adb connect 192.168.2.103')
+
 #use input instead
 lizhi = input('Enter your Lizhi:')
 while True:
@@ -132,4 +132,8 @@ msg = '理智已经耗尽'.decode('utf8')
 qq = sendMsg(receiver,msg)
 qq.sendmsg()
 
-#os.system('adb -d shell sh /data/data/me.piebridge.brevent/brevent.sh')
+#lock screen
+os.system('adb shell input keyevent 26')
+#disconnect device
+#os.system('adb disconnect')
+
