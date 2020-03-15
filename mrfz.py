@@ -18,6 +18,7 @@ import win32con
 import win32clipboard as w
 
 resolution = '2340x1080'
+receiver = '我的Android手机'.decode('utf8').encode('gbk', 'ignore')
 wireless = True
 #if you want to use WiFi adb, fill in your phone ip below
 phone_ip = '192.168.2.103'
@@ -29,6 +30,10 @@ def xyoffset(coordinate):#coordinate[x,y]
 	y = y + random.randint(-10,10)
 	return [x,y]
 
+def tap(tap_coordinate):
+	os.system('adb shell input tap %d %d' %(tap_coordinate[0], tap_coordinate[1]))
+	return 0
+	
 class sendMsg():
 	def __init__(self,receiver,msg):
 		self.receiver=receiver
@@ -63,12 +68,18 @@ level_dict['1-7'] = [1 * 60 + 25, 6]
 level_dict['3-4'] = [2 * 60 + 25, 15]
 level_dict['4-2'] = [1 * 60 + 53, 18]
 level_dict['4-4'] = [2 * 60 + 35, 18]
+level_dict['4-5'] = [2 * 60 + 10, 18]
 level_dict['4-7'] = [2 * 60 + 15, 18]
 level_dict['4-8'] = [2 * 60 + 10, 21]
 level_dict['4-9'] = [2 * 60 + 40, 21]
+level_dict['4-10'] = [2 * 60 + 35, 21]
+level_dict['6-11'] = [2 * 60 + 50, 21]
 level_dict['6-12'] = [2 * 60, 18]
 level_dict['AP-5'] = [2 * 60 + 25, 30]
+level_dict['CA-5'] = [2 * 60 + 5, 30]
 level_dict['CE-5'] = [2 * 60 + 15, 30]
+level_dict['LS-5'] = [2 * 60 + 20, 30]
+level_dict['PR-A-2'] = [2 * 60 + 30, 36]
 level_dict['PR-C-1'] = [1 * 60 + 37, 18]
 level_dict['PR-D-1'] = [2 * 60, 18]
 level_dict['S3-1'] = [1 * 60 + 35, 15]
@@ -109,6 +120,7 @@ os.popen('adb shell rm /sdcard/org.png')
 
 #loop part 
 for i in range(turn):
+	retry = 0
 	while True:
 		ssim = imgcontrast()
 		print 'SSIM: ' + str(ssim)
@@ -116,18 +128,23 @@ for i in range(turn):
 			break
 		time.sleep(5)
 		os.system('adb shell input tap 1683 755')
+		retry++
+		if retry > 3:
+			msg = '发生错误'.decode('utf8')
+			qq = sendMsg(receiver,msg)
+			qq.sendmsg()
+			os.system('pause')
 	tap_coordinate = xyoffset(coordinate_dict[resolution][0])
-	os.system('adb shell input tap %d %d' %(tap_coordinate[0], tap_coordinate[1]))
+	tap(tap_coordinate)
 	time.sleep(5 + random.randint(0,3))
 	tap_coordinate = xyoffset(coordinate_dict[resolution][1])
-	os.system('adb shell input tap %d %d' %(tap_coordinate[0], tap_coordinate[1]))
+	tap(tap_coordinate)
 	time.sleep(time_cost + random.randint(0,3))
-	os.system('adb shell input tap 1683 755')
-	print str(i + 1) + '/' + str(turn) + ' Done'
+	tap([1683,755])
+	print '%d/%d Done'%(i + 1,turn)
 	time.sleep(5 + random.randint(0,3))
 
 #Send QQ Msg to Phone when run out of lizhi
-receiver = '我的Android手机'.decode('utf8').encode('gbk', 'ignore')
 msg = '理智已经耗尽'.decode('utf8')
 qq = sendMsg(receiver,msg)
 qq.sendmsg()
@@ -135,5 +152,5 @@ qq.sendmsg()
 #lock screen
 os.system('adb shell input keyevent 26')
 #disconnect device
-#os.system('adb disconnect')
+os.system('adb disconnect')
 
